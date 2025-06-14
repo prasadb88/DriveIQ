@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.routes.js";
+import carRouter from "./routes/carinfo.routes.js"
+import testDriveRouter from "./routes/testdrive.routes.js"
 
 const app = express();
 
@@ -16,5 +18,9 @@ app.use(
 );
 app.use(cookieParser());
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/cars", carRouter);
+app.use("/api/v1/testdrive", testDriveRouter);
+
+
 
 export default app;

@@ -1,5 +1,6 @@
 import {v2 as cloudinary} from 'cloudinary'
 import fs from "fs"
+import { ApiError } from './ApiError.js'
 
 cloudinary.config({
     cloud_name:process.env.CLOUDNARY_NAME,
@@ -10,13 +11,16 @@ cloudinary.config({
 
 const uploadOncloudinary=async(localpath)=>{
     try {
-   if(!localpath) return null
+   if(!localpath) {
+    throw ApiError(400,"porblem in file upolad")
+   }
+
    const response = await cloudinary.uploader.upload(localpath,{
         resource_type:"auto"
     })
-    console.log("File upolad sucessfully",response.url);
-    fs.unlink(localpath)
-    return response
+   // console.log("File upolad sucessfully",response.url);
+    fs.unlinkSync(localpath)
+    return response.url
     
     } catch (error) {
         fs.unlinkSync(localpath)
@@ -24,5 +28,9 @@ const uploadOncloudinary=async(localpath)=>{
         
     }
 }
+const  deleteOnCloudinary=async(filepath)=>
+{
+    cloudinary.uploader.destroy(filepath);
+}
 
-export {uploadOncloudinary}
+export {uploadOncloudinary,deleteOnCloudinary}

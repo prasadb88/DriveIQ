@@ -1,8 +1,27 @@
 import { Router } from "express";
-import { registeruser } from "../controller/user.controller.js";
+import { registeruser,login, logout,genratenewtoken, changepassword, getcurrentuser, changeaccountdetails, updateAvatar, chagerole } from "../controller/user.controller.js";
+import { upload } from "../middleware/multer.middleware.js";
+import {jwtverify} from "../middleware/auth.middleware.js";
+
 
 const router=Router()
 
-router.route("/registeruser").post(registeruser)
+router.route("/registeruser").post(
+    upload.single("avatar"),
+    registeruser
+);
+
+router.route("/login").post(login);
+router.route("/logout").post(jwtverify,logout);
+router.route("/genratenewtoken").patch(genratenewtoken);
+router.route("/changepass").patch(jwtverify,changepassword);
+router.route("/getcurrentuser").get(jwtverify,getcurrentuser);
+router.route("/changeaccountdetails").post(jwtverify,changeaccountdetails);
+router.route("/changeavatar").patch(
+    jwtverify,
+    upload.single("avatar"),
+    updateAvatar
+);
+router.route("/changerole").patch(jwtverify,chagerole);
 
 export default router
