@@ -1,11 +1,14 @@
-
+import { Button } from "./components/ui/button"
+import './App.css'
+import CarCard from "./components/Card"
 
 function App() {
-  
+ 
 
   return (
     <>
-     DRIVEIQ
+      <Button variant="destructive" className='bg-black'>Click Me</Button>
+      <CarCard/>
     </>
   )
 }
