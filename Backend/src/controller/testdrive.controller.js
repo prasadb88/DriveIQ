@@ -7,7 +7,7 @@ import { User } from "../models/user.model.js";
 
 const requesttestdrive=asyncHandler(async(req,res)=>{
     const user = await User.findById(req.user._id || req.user).select("username email fullname phoneno")
-    const{carId,requestedtime}=req.body
+    const{carId,requestedtime,requestedDate}=req.body
     if(!user)
     {
         throw new ApiError(400,"User Not Found")
@@ -28,6 +28,7 @@ const requesttestdrive=asyncHandler(async(req,res)=>{
         buyer:user._id,
         seller:car.seller,
         requestedTime:requestedtime,
+        requestedDate:requestedDate,
         status:"pending"
     })
     return res.status(200).
@@ -37,8 +38,8 @@ const requesttestdrive=asyncHandler(async(req,res)=>{
 const mytestdriverequest= asyncHandler(async(req,res)=>{
       const user=req.user
     const requests = await TestDrive.find({ buyer: user._id })
-        .populate('car', 'maker model year')
-        .populate('seller', 'username email fullname');
+        .populate('car', 'maker model year images')
+        .populate('seller', 'username email fullname address');
 
     return res.status(200).
         json(new ApiResponse(200, requests, "request feature sucessfully"))
@@ -47,18 +48,17 @@ const mytestdriverequest= asyncHandler(async(req,res)=>{
 const getSellerTestDriveRequests = asyncHandler(async (req, res) => {
     const user=req.user
 
-
     const requests = await TestDrive.find({ seller:user._id  })
-        .populate('car', 'maker model year color') 
-        .populate('seller', 'name email phone') 
+        .populate('car', 'maker model year color price') 
+        .populate('buyer', 'username email fullname phoneno avatar') 
+        .populate('seller', 'name email phone _id') 
         .sort({ createdAt: -1 }); 
 
     res.status(200).json(new ApiResponse(200,requests,"request feature sucessfully"));
 });
 
 const accepttestdrive= asyncHandler(async(req,res)=>{
-    const {id}=req.params
-    const {confirmedTime}= req.body
+    const {id}= req.body
     
     const testdrive= await TestDrive.findById(id)
 
@@ -66,25 +66,21 @@ const accepttestdrive= asyncHandler(async(req,res)=>{
     {
      throw new ApiError(400,"Test Drive Request Not Found")
     }
-    if(!confirmedTime)
-    {
-     throw new ApiError(400,"confirmedTime is required")
-    }
 
     if(testdrive.status!=="pending")
     {
-        throw new ApiResponse(400,"TestDrive Request is not pending")
+        throw new ApiError(400,"TestDrive Request is not pending")
     }
-    testdrive.status="accepted"
-    testdrive.confirmedTime=confirmedTime
-    await testdrive.save({validateBeforeSave:false })
 
+    testdrive.status="accepted"
+    await testdrive.save({validateBeforeSave:false })
+    
     return res.status(200).
-      json(new ApiResponse(200,"","testDrive Aceppted Scessfully"))
+      json(new ApiResponse(200,testdrive,"testDrive Aceppted Scessfully"))
 })
 
   const rejectedtestdrive=asyncHandler(async(req,res)=>{
-     const {id}=req.params
+     const {id}=req.body
     const {message}= req.body
 
    const testdrive= await TestDrive.findById(id)
@@ -107,7 +103,11 @@ const accepttestdrive= asyncHandler(async(req,res)=>{
 
   })
  const starttestdrive= asyncHandler(async(req,res)=>{
-     const {id}=req.params
+    let { id } = req.body;
+
+  if (typeof id === "object" && id !== null && id.id) {
+    id = id.id;
+  }
 
      const testdrive=await TestDrive.findById(id)
   
@@ -121,7 +121,7 @@ const accepttestdrive= asyncHandler(async(req,res)=>{
         throw new ApiError(400,"Test Drive Request Not Accepted")
     }
 
-    testdrive.status=true
+    testdrive.status="in-progress"
     await testdrive.save({validateBeforeSave:false})
 
     return res.status(200).
@@ -130,7 +130,11 @@ const accepttestdrive= asyncHandler(async(req,res)=>{
  })
 
   const completetestdrive=asyncHandler(async(req,res)=>{
-     const {id}=req.params
+     let {id}=req.body
+
+     if (typeof id === "object" && id !== null && id.id) {
+       id = id.id;
+     }
 
      const testdrive=await TestDrive.findById(id)
   
@@ -138,7 +142,7 @@ const accepttestdrive= asyncHandler(async(req,res)=>{
     {
      throw new ApiError(400,"Test Drive Request Not Found")
     }
-     if(testdrive.status!=="accepted")
+     if(testdrive.status!=="in-progress")
     {
         throw new ApiError(400,"Test Drive Request Not Accepted")
     }
@@ -150,7 +154,7 @@ const accepttestdrive= asyncHandler(async(req,res)=>{
 
   })
   const cancelTestDrive = asyncHandler(async (req, res) => {
-    const { id } = req.params; // TestDrive ID
+    const { id } = req.params;
 
     const testDrive = await TestDrive.findById(id);
 

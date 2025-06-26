@@ -65,31 +65,44 @@ return res.
 
  })
 
-const updatecarinfo= asyncHandler(async(req,res)=>{
-    const{maker,model,year,price,milage,fuelType,color,bodyType,description,transmission}=req.body
-    const updateFields={}
-    const carId=req.params.id
-    if (maker) updateFields.maker = maker;
-    if (model) updateFields.model = model;
-    if (year) updateFields.year = year;
-    if (price) updateFields.price = price;
-    if (milage) updateFields.milage = milage;
-    if (fuelType) updateFields.fuelType = fuelType;
-    if (color) updateFields.color = color;
-    if (bodyType) updateFields.bodyType = bodyType;
-    if (description) updateFields.description = description;
-    if (transmission) updateFields.transmission = transmission;
+const updatecarinfo = asyncHandler(async (req, res) => {
+  const {
+    maker, model, year, price, milage, fuelType, color, bodyType, description, transmission
+  } = req.body;
+  const updateFields = {};
+  const carId = req.params.id;
 
-    const updatedcar=await Car.findByIdAndUpdate(carId,updateFields, { new: true, runValidators: true });
+  if (maker) updateFields.maker = maker;
+  if (model) updateFields.model = model;
+  if (year) updateFields.year = year;
+  if (price) updateFields.price = price;
+  if (milage) updateFields.milage = milage;
+  if (fuelType) updateFields.fuelType = fuelType;
+  if (color) updateFields.color = color;
+  if (bodyType) updateFields.bodyType = bodyType;
+  if (description) updateFields.description = description;
+  if (transmission) updateFields.transmission = transmission;
 
-      if(!updatedcar)
-      {
-        throw new ApiError(400,"Car Not Found")
-      }
+  // Handle images
+  const files = req.files;
+  if (files && files.length > 0) {
+    // Optionally: delete old images from Cloudinary here if you want to replace them
+    const imageUrls = [];
+    for (const file of files) {
+      const url = await uploadOncloudinary(file.path);
+      if (url) imageUrls.push(url);
+    }
+    updateFields.images = imageUrls;
+  }
 
-      return res.status(200).
-      json(new ApiResponse(200,updatedcar,"Car Details Sucessfully Updated"))
-})
+  const updatedcar = await Car.findByIdAndUpdate(carId, updateFields, { new: true, runValidators: true });
+
+  if (!updatedcar) {
+    throw new ApiError(400, "Car Not Found");
+  }
+
+  return res.status(200).json(new ApiResponse(200, updatedcar, "Car Details Successfully Updated"));
+});
 
 const deletecar=asyncHandler(async(req,res)=>{
     const carId=req.params.id

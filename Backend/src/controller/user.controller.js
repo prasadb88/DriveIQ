@@ -69,22 +69,22 @@ import asyncHandler from "../utils/AsyncHandler.js";
     throw new ApiError(400,"User Alredy Exist")
 
     }
-     let avatar
-      const avatarlocal= req.file?.path;
+    //  let avatar
+    //   const avatarlocal= req.file?.path;
 
-      if(avatarlocal)
-      {
-     avatar = await uploadOncloudinary(avatarlocal)
-      }
-      else
-      {
-        avatar="https://res.cloudinary.com/doasllkyt/image/upload/v1749456578/qgmp5sbgq43tys0bwied.png"
-      }
-    if (!avatar) {
+    //   if(avatarlocal)
+    //   {
+    //  avatar = await uploadOncloudinary(avatarlocal)
+    //   }
+    //   else
+    //   {
+    //     avatar="https://res.cloudinary.com/doasllkyt/image/upload/v1749456578/qgmp5sbgq43tys0bwied.png"
+    //   }
+    // if (!avatar) {
 
-    throw new ApiError(400, "Failed to upload avatar")
+    // throw new ApiError(400, "Failed to upload avatar")
 
-    }
+    // }
 
 
 
@@ -103,8 +103,6 @@ import asyncHandler from "../utils/AsyncHandler.js";
     role,
 
     fullname,
-
-    avatar
 
     })
 
@@ -336,6 +334,19 @@ const chagerole= asyncHandler(async(req,res)=>{
 
 })
 
+const getuser=asyncHandler(async(req,res)=>{
+  const{id}=req.body
+const user= await User.findById(id).select("-password -refreshtoken -images ")
+  if(!user)
+  {
+    throw new ApiError(400,"Problem in the get user")
+  }
+   return res.
+  status(200).
+  json(new ApiResponse(200,user,"user Fetch Suessfully Sucessfully"))
+  
+
+})
 
 
-    export {registeruser,login,logout,genratenewtoken,changepassword,getcurrentuser,changeaccountdetails,updateAvatar,chagerole}
+    export {registeruser,login,logout,genratenewtoken,changepassword,getcurrentuser,changeaccountdetails,updateAvatar,chagerole,getuser}

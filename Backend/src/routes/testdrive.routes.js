@@ -9,10 +9,10 @@ const router=Router()
 router.route("/requesttestdrive").post(jwtverify,requesttestdrive)
 router.route("/mytestdriverequest").get(jwtverify,mytestdriverequest);
 router.route("/getSellerTestDriveRequests").get(jwtverify,getSellerTestDriveRequests);
-router.route("/accepttestdrive/:id").post(jwtverify,accepttestdrive);
-router.route("/rejecttestdrive/:id").get(jwtverify,rejectedtestdrive);
-router.route("/starttestdrive/:id").get(jwtverify,starttestdrive);
-router.route("/completetestdrive/:id").get(jwtverify,completetestdrive);
+router.route("/accepttestdrive").post(jwtverify,accepttestdrive);
+router.route("/rejecttestdrive").post(jwtverify,rejectedtestdrive);
+router.route("/starttestdrive").post(jwtverify,starttestdrive);
+router.route("/completetestdrive").post(jwtverify,completetestdrive);
 router.route("/canceltestdrive/:id").get(jwtverify,cancelTestDrive);
 
 export default router

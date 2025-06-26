@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registeruser,login, logout,genratenewtoken, changepassword, getcurrentuser, changeaccountdetails, updateAvatar, chagerole } from "../controller/user.controller.js";
+import { registeruser,login, logout,genratenewtoken, changepassword, getcurrentuser, changeaccountdetails, updateAvatar, chagerole, getuser } from "../controller/user.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
 import {jwtverify} from "../middleware/auth.middleware.js";
 
@@ -23,5 +23,7 @@ router.route("/changeavatar").patch(
     updateAvatar
 );
 router.route("/changerole").patch(jwtverify,chagerole);
+router.route("/getuser").post(jwtverify,getuser);
+
 
 export default router

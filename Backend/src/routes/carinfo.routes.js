@@ -11,7 +11,7 @@ router.route("/addcar").post(
     upload.array("images",5),
     Addcar
 )
-router.route("/updatecar/:id").post(jwtverify,updatecarinfo)
+router.route("/updatecar/:id").post(jwtverify, upload.array("images",5),updatecarinfo)
 router.route("/deletecar/:id").get(jwtverify,deletecar)
 router.route("/getallcars").get(jwtverify,getallcars)
 router.route("/getcar/:id").get(jwtverify,getcar)

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import { User } from "./user.model.js";
 
 
+
 const testDriveSchema = new mongoose.Schema({
     car: {
         type: mongoose.Schema.Types.ObjectId,
@@ -9,8 +10,8 @@ const testDriveSchema = new mongoose.Schema({
         required: [true, 'Test drive must be for a specific car']
     },
     buyer: {
-         type: String,
-            trim: true ,
+         type: mongoose.Schema.Types.ObjectId,
+            ref: User ,
             required:true
     },
     seller: {
@@ -19,9 +20,13 @@ const testDriveSchema = new mongoose.Schema({
         required: [true, 'Test drive must be associated with a seller']
     },
     requestedTime: {
-        type: Date,
+        type: String,
         required: [true, 'Requested test drive time is required']
     },
+    requestedDate : {
+        type:Date,
+        required:[true]
+      },
    
     confirmedTime: {
         type: Date,
@@ -29,7 +34,7 @@ const testDriveSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'accepted', 'rejected', 'completed', 'cancelled','none'],
+        enum: ['pending', 'accepted', 'rejected', 'completed', 'cancelled','in-progress'],
         default: 'none'
     },
     rejectionReason: {

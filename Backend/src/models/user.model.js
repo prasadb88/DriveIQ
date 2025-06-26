@@ -38,11 +38,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  avatar: {
-    type: String,
-    required: true,
-    default:"https://res.cloudinary.com/doasllkyt/image/upload/v1749456578/qgmp5sbgq43tys0bwied.png"
-  },
+  // avatar: {
+  //   type: String,
+  //   required: true,
+  //   default:"https://res.cloudinary.com/doasllkyt/image/upload/v1749456578/qgmp5sbgq43tys0bwied.png"
+  // },
   refreshtoken: {
     type: String,
     
