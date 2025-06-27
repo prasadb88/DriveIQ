@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate, useLocation } from "react-router-dom"
@@ -115,7 +114,7 @@ function Header() {
 
   const navItems = [
     ...(user ? [{ name: "Home", path: "/" }] : []),
-    ...(user?.data?.role === "seller" ? [{ name: "Seller Dashboard", path: "/seller-dashboard" }] : []),
+    ...(user && user.data && user.data.role === "seller" ? [{ name: "Seller Dashboard", path: "/seller-dashboard" }] : []),
     ...(user ? [{ name: "My Test Drives", path: "/my-test-drives" }] : []),
   ]
 
@@ -165,7 +164,7 @@ function Header() {
                   )}
                 </div>
 
-                {user.data.role === "buyer" ? (
+                {user && user.data && user.data.role === "buyer" ? (
                   <Dialog open={isRoleDialogOpen} onOpenChange={setIsRoleDialogOpen}>
                     <DialogTrigger asChild>
                       <Button variant="outline" size="sm">
@@ -286,7 +285,7 @@ function Header() {
                 {/* User Actions (Mobile) */}
                 {user ? (
                   <>
-                    {user.data.role === "buyer" && (
+                    {user && user.data && user.data.role === "buyer" && (
                       <DropdownMenuItem
                         onClick={() => {
                           setIsRoleDialogOpen(true)

@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.routes.js";
 import carRouter from "./routes/carinfo.routes.js"
 import testDriveRouter from "./routes/testdrive.routes.js"
+import dotenv from 'dotenv'
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.static("public"));
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.Backend_URL,
     credentials: true,
   })
 );
