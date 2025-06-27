@@ -166,7 +166,7 @@ formData.append("_id", carId);
     "Lotus",
   ]
 
- const fuelTypes = ["Gasoline", "Diesel", "Hybrid", "Electric", "Plug-in Hybrid"]
+ const fuelTypes = ["Petrol", "Diesel", "Hybrid", "Electric", "Plug-in Hybrid"]
   const transmissionTypes = ["Manual", "Automatic", "CVT", "Semi-Automatic"]
   const bodyTypes = ["Sedan", "SUV", "Hatchback", "Coupe", "Convertible", "Pickup Truck", "Wagon", "Minivan"]
 

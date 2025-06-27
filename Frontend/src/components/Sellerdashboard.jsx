@@ -266,34 +266,34 @@ export default function SellerDashboard() {
 
         {/* Tabs */}
         <Tabs defaultValue="pending" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-5 bg-white border border-gray-200 h-10">
+          <TabsList className="flex flex-wrap w-full gap-2 bg-white border border-gray-200 h-auto p-1 sm:grid sm:gap-0 sm:p-0 sm:h-10 sm:grid-cols-3 lg:grid-cols-5">
             <TabsTrigger
               value="pending"
-              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-sm"
+              className="flex-1 min-w-[120px] data-[state=active]:bg-blue-600 data-[state=active]:text-white text-sm"
             >
               Pending ({pendingDrives.length})
             </TabsTrigger>
             <TabsTrigger
               value="accepted"
-              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-sm"
+              className="flex-1 min-w-[120px] data-[state=active]:bg-blue-600 data-[state=active]:text-white text-sm"
             >
               Accepted ({acceptedDrives.length})
             </TabsTrigger>
             <TabsTrigger
               value="in-progress"
-              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-sm"
+              className="flex-1 min-w-[120px] data-[state=active]:bg-blue-600 data-[state=active]:text-white text-sm"
             >
               In Progress ({inProgressDrives.length})
             </TabsTrigger>
             <TabsTrigger
               value="completed"
-              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-sm"
+              className="flex-1 min-w-[120px] data-[state=active]:bg-blue-600 data-[state=active]:text-white text-sm"
             >
               Completed ({completedDrives.length})
             </TabsTrigger>
             <TabsTrigger
               value="rejected"
-              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-sm"
+              className="flex-1 min-w-[120px] data-[state=active]:bg-blue-600 data-[state=active]:text-white text-sm"
             >
               Rejected ({rejectedDrives.length})
             </TabsTrigger>

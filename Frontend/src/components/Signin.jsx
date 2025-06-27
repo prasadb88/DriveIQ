@@ -86,7 +86,9 @@ function Signin() {
             <div className="flex items-center space-x-2">
 
             </div>
-            <Button variant="link" className="px-0 text-sm">
+            <Button variant="link" className="px-0 text-sm" type="button" onClick={()=>{
+              toast.success("Currently unavilable")
+            }}>
               Forgot password?
             </Button>
           </div>

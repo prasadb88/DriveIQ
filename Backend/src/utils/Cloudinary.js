@@ -9,6 +9,14 @@ cloudinary.config({
 })
 
 
+const safeUnlinkSync = (path) => {
+    try {
+        fs.unlinkSync(path);
+    } catch (err) {
+        if (err.code !== 'ENOENT') throw err; // Ignore file-not-found, rethrow others
+    }
+};
+
 const uploadOncloudinary=async(localpath)=>{
     try {
    if(!localpath) {
@@ -19,11 +27,11 @@ const uploadOncloudinary=async(localpath)=>{
         resource_type:"auto"
     })
    // console.log("File upolad sucessfully",response.url);
-    fs.unlinkSync(localpath)
+    safeUnlinkSync(localpath)
     return response.url
     
     } catch (error) {
-        fs.unlinkSync(localpath)
+        safeUnlinkSync(localpath)
         console.log("Error in file upload",error);
         
     }

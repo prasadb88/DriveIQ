@@ -26,7 +26,7 @@ import asyncHandler from "../utils/AsyncHandler.js";
 
     const registeruser = asyncHandler(async (req, res) => {
 
-    const { username, password, fullname, email, address, phoneno, role } = req.body;
+    const { username, password, fullname, email, address, phoneno} = req.body;
 
     if (username === "" || password === "" || fullname === "" || email === "" || address === "" || phoneno === "") {
 
@@ -99,8 +99,6 @@ import asyncHandler from "../utils/AsyncHandler.js";
     phoneno,
 
     address,
-
-    role,
 
     fullname,
 

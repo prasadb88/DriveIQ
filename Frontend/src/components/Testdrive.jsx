@@ -119,20 +119,20 @@ export default function TestDrive() {
 
         {/* Tabs */}
         <Tabs defaultValue="upcoming" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-white border">
-            <TabsTrigger value="upcoming" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+          <TabsList className="flex flex-wrap w-full gap-2 bg-white border h-auto p-1 sm:grid sm:gap-0 sm:p-0 sm:h-10 sm:grid-cols-3 lg:grid-cols-5 md:grid md:grid-cols-5">
+            <TabsTrigger value="upcoming" className="flex-1 min-w-[110px] data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               Pending ({upcomingDrives.length})
             </TabsTrigger>
-            <TabsTrigger value="accepted" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger value="accepted" className="flex-1 min-w-[110px] data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               Accepted ({acceptedDrives.length})
             </TabsTrigger>
-            <TabsTrigger value="completed" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger value="completed" className="flex-1 min-w-[110px] data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               Completed ({completedDrives.length})
             </TabsTrigger>
-            <TabsTrigger value="cancelled" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger value="cancelled" className="flex-1 min-w-[110px] data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               Cancelled ({cancelledDrives.length})
             </TabsTrigger>
-            <TabsTrigger value="rejected" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+            <TabsTrigger value="rejected" className="flex-1 min-w-[110px] data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               Rejected ({rejectedDrives.length})
             </TabsTrigger>
           </TabsList>

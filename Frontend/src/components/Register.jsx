@@ -8,14 +8,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Separator } from "@/components/ui/separator"
 import { Car, User, Mail, Lock, Phone, MapPin, Upload, UserCheck } from "lucide-react"
-import { useState } from "react"
+
 import { useForm } from "react-hook-form"
 import {  useNavigate } from "react-router-dom"
 import authService from "@/config/authservice"
 import { toast } from "sonner"
 
 export default function RegisterPage() {
-  const [selectedRole, setSelectedRole] = useState("")
+
   const {register,handleSubmit}=useForm()
   const navigate=useNavigate()
 
@@ -151,7 +151,7 @@ export default function RegisterPage() {
           </div>
 
           {/* Role Selection */}
-          <div className="space-y-3">
+          {/* <div className="space-y-3">
             <Label>I want to join as a:</Label>
             <RadioGroup value={selectedRole} onValueChange={setSelectedRole} {...register("role")}className="flex space-x-6 ">
               <div className="flex items-center space-x-2">
@@ -167,7 +167,7 @@ export default function RegisterPage() {
                 </Label>
               </div>
             </RadioGroup>
-          </div>
+          </div> */}
         </CardContent>
         <CardFooter className="flex flex-col space-y-4">
           <Button className="w-full bg-blue-600 hover:bg-blue-700">Create Account</Button>
@@ -179,7 +179,7 @@ export default function RegisterPage() {
               <span className="bg-background px-2 text-muted-foreground">Already have an account?</span>
             </div>
           </div>
-          <Button variant="outline" className="w-full" onclick={
+          <Button variant="outline" className="w-full" type="button" onClick={
             ()=>{
               navigate("/signin")
             }

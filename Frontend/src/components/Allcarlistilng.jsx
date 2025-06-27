@@ -252,7 +252,7 @@ export default function CarListingPage() {
   const dispatch = useDispatch();
   const allcars = useSelector((state) => state.carsdata.allcardata) || [];
   const navigate = useNavigate();
-
+  const user = useSelector((state) => state.auth.user);
   useEffect(() => {
     const getcars = async () => {
       const response = await carservice.getallcars();
@@ -314,7 +314,11 @@ export default function CarListingPage() {
 
       {/* Sell Your Car Button - moved inside the flex container */}
       <Button className="bg-blue-600 hover:bg-blue-700 text-white" onClick={() => {
-        navigate("/addcar")
+        if(user.data.role==="seller"){navigate("/addcar")}
+        else{
+          toast.info("You Are Not A Seller Please Change The Role")
+        }
+        
       }}>
         <Car className="h-4 w-4 mr-2" />
         Sell Your Car

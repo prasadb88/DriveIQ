@@ -53,19 +53,19 @@ export default function LandingPage() {
 
   const testimonials = [
     {
-      name: "Sarah Johnson",
+      name: "Prasad Bhot",
       role: "Car Buyer",
       content: "Found my dream car in just 2 days! The process was smooth and transparent.",
       rating: 5,
     },
     {
-      name: "Mike Chen",
+      name: "",
       role: "Car Seller",
       content: "Sold my vehicle 3x faster than other platforms. Great buyer verification system.",
       rating: 5,
     },
     {
-      name: "Emily Rodriguez",
+      name: "",
       role: "First-time Buyer",
       content: "The market insights helped me negotiate the perfect price. Highly recommend!",
       rating: 5,
@@ -104,11 +104,11 @@ export default function LandingPage() {
           <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-500">
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-              10,000+ Verified Users
+               Verified Users
             </div>
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-              50,000+ Successful Transactions
+              Successful Transactions
             </div>
             <div className="flex items-center">
               <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
@@ -223,11 +223,11 @@ export default function LandingPage() {
             Join Drive IQ today and experience the future of vehicle buying and selling.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100" onClick={()=>{navigate("/register")}}>
               Create Account
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+            <Button size="lg" variant="outline" className="bg-white text-blue-600 hover:bg-gray-100">
               Learn More
             </Button>
           </div>

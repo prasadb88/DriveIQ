@@ -84,12 +84,16 @@ export class AuthService{
         });
     }
        async changerole(role){
-         axios.patch(`${import.meta.env.VITE_API_URL}/api/v1/user/changerole`, {role}, { withCredentials: true })
-        .then((respone)=>{
-        return respone
-        }).catch((e) => {
-           throw e.response.data
-        });
+          try {
+        const response = await axios.patch(
+          `${import.meta.env.VITE_API_URL}/api/v1/user/changerole`,
+          { role },
+          { withCredentials: true }
+        );
+        return response.data;
+      } catch (e) {
+        throw e.response?.data || e;
+      }
     }
 
     async getuser(id) {

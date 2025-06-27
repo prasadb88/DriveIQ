@@ -18,6 +18,7 @@
   "author": "PRASAD BHOT",
   "license": "ISC",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.6.1",
     "cookie-parser": "^1.4.7",
