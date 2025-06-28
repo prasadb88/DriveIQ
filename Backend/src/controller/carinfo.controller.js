@@ -75,7 +75,7 @@ import asyncHandler from "../utils/AsyncHandler.js";
         for (const file of files) {
             try {
                 console.log("Uploading file:", file.originalname);
-                const url = await uploadOncloudinary(file.path);
+                const url = await uploadOncloudinary(file.buffer, file.originalname);
                 if (url) {
                     imageUrls.push(url);
                     console.log("File uploaded successfully:", url);

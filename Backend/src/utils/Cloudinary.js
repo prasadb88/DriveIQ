@@ -1,5 +1,4 @@
 import {v2 as cloudinary} from 'cloudinary'
-import fs from "fs"
 import { ApiError } from './ApiError.js'
 
 cloudinary.config({
@@ -8,44 +7,30 @@ cloudinary.config({
     api_secret:process.env.CLOUDNARY_SECRET
 })
 
-const safeUnlinkSync = (path) => {
-    try {
-        if (path && fs.existsSync(path)) {
-            fs.unlinkSync(path);
-        }
-    } catch (err) {
-        if (err.code !== 'ENOENT') {
-            console.error("Error deleting file:", err);
-        }
-    }
-};
-
-const uploadOncloudinary=async(localpath)=>{
+const uploadOncloudinary=async(fileBuffer, originalname)=>{
     try {
         // Check if Cloudinary is configured
         if (!process.env.CLOUDNARY_NAME || !process.env.CLOUDNARY_KEY || !process.env.CLOUDNARY_SECRET) {
             throw new Error("Cloudinary configuration is missing. Please check your environment variables.");
         }
 
-        if(!localpath) {
-            throw new Error("File path is required for upload");
+        if(!fileBuffer) {
+            throw new Error("File buffer is required for upload");
         }
 
-        // Check if file exists
-        if (!fs.existsSync(localpath)) {
-            throw new Error("File does not exist at the specified path");
-        }
-
-        const response = await cloudinary.uploader.upload(localpath,{
-            resource_type:"auto"
-        })
+        // Convert buffer to base64 string for Cloudinary
+        const base64String = `data:image/jpeg;base64,${fileBuffer.toString('base64')}`;
+        
+        // Upload to Cloudinary
+        const response = await cloudinary.uploader.upload(base64String, {
+            resource_type: "auto",
+            folder: "driveiq-cars"
+        });
         
         console.log("File uploaded successfully:", response.url);
-        safeUnlinkSync(localpath)
-        return response.url
+        return response.url;
         
     } catch (error) {
-        safeUnlinkSync(localpath)
         console.error("Error in file upload:", error);
         
         // Provide more specific error messages
@@ -61,8 +46,7 @@ const uploadOncloudinary=async(localpath)=>{
     }
 }
 
-const  deleteOnCloudinary=async(filepath)=>
-{
+const deleteOnCloudinary=async(filepath)=>{
     try {
         if (!process.env.CLOUDNARY_NAME || !process.env.CLOUDNARY_KEY || !process.env.CLOUDNARY_SECRET) {
             throw new Error("Cloudinary configuration is missing");
