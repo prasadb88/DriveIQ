@@ -18,10 +18,18 @@ app.use(
   })
 );
 app.use(cookieParser());
+
+// Root route
+app.get("/", (req, res) => {
+  res.json({
+    message: "Welcome to DriveIQ API",
+    status: "Server is running successfully",
+    version: "1.0.0"
+  });
+});
+
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/cars", carRouter);
 app.use("/api/v1/testdrive", testDriveRouter);
-
-
 
 export default app;
