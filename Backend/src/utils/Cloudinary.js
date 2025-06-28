@@ -8,37 +8,73 @@ cloudinary.config({
     api_secret:process.env.CLOUDNARY_SECRET
 })
 
-
 const safeUnlinkSync = (path) => {
     try {
-        fs.unlinkSync(path);
+        if (path && fs.existsSync(path)) {
+            fs.unlinkSync(path);
+        }
     } catch (err) {
-        if (err.code !== 'ENOENT') throw err; // Ignore file-not-found, rethrow others
+        if (err.code !== 'ENOENT') {
+            console.error("Error deleting file:", err);
+        }
     }
 };
 
 const uploadOncloudinary=async(localpath)=>{
     try {
-   if(!localpath) {
-    throw ApiError(400,"porblem in file upolad")
-   }
+        // Check if Cloudinary is configured
+        if (!process.env.CLOUDNARY_NAME || !process.env.CLOUDNARY_KEY || !process.env.CLOUDNARY_SECRET) {
+            throw new Error("Cloudinary configuration is missing. Please check your environment variables.");
+        }
 
-   const response = await cloudinary.uploader.upload(localpath,{
-        resource_type:"auto"
-    })
-   // console.log("File upolad sucessfully",response.url);
-    safeUnlinkSync(localpath)
-    return response.url
-    
+        if(!localpath) {
+            throw new Error("File path is required for upload");
+        }
+
+        // Check if file exists
+        if (!fs.existsSync(localpath)) {
+            throw new Error("File does not exist at the specified path");
+        }
+
+        const response = await cloudinary.uploader.upload(localpath,{
+            resource_type:"auto"
+        })
+        
+        console.log("File uploaded successfully:", response.url);
+        safeUnlinkSync(localpath)
+        return response.url
+        
     } catch (error) {
         safeUnlinkSync(localpath)
-        console.log("Error in file upload",error);
+        console.error("Error in file upload:", error);
         
+        // Provide more specific error messages
+        if (error.message.includes("Cloudinary configuration")) {
+            throw new Error("Cloudinary is not properly configured. Please check your environment variables.");
+        }
+        
+        if (error.http_code) {
+            throw new Error(`Cloudinary upload failed: ${error.message}`);
+        }
+        
+        throw new Error(`File upload failed: ${error.message}`);
     }
 }
+
 const  deleteOnCloudinary=async(filepath)=>
 {
-    cloudinary.uploader.destroy(filepath);
+    try {
+        if (!process.env.CLOUDNARY_NAME || !process.env.CLOUDNARY_KEY || !process.env.CLOUDNARY_SECRET) {
+            throw new Error("Cloudinary configuration is missing");
+        }
+        
+        const result = await cloudinary.uploader.destroy(filepath);
+        console.log("File deleted from Cloudinary:", result);
+        return result;
+    } catch (error) {
+        console.error("Error deleting from Cloudinary:", error);
+        throw new Error(`Failed to delete file from Cloudinary: ${error.message}`);
+    }
 }
 
 export {uploadOncloudinary,deleteOnCloudinary}
