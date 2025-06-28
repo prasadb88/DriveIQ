@@ -144,8 +144,10 @@ import asyncHandler from "../utils/AsyncHandler.js";
       const {refreshtoken,accesstoken} = await genraterefreshtokenacesstoken(user._id);
       const loggedinuser = await User.findById(user._id).select("-password -refreshtoken");
       const option={
-        httpOnly:true,
-        secure:true
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
       }
 
       return res.
@@ -168,8 +170,10 @@ const logout=asyncHandler(async(req,res)=>{
       new:true
     })
     const option={
-        httpOnly:true,
-        secure:true
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
       }
 
     return res.
@@ -209,8 +213,10 @@ const genratenewtoken= asyncHandler(async(req,res)=>{
     new:true
   })
   const option={
-        httpOnly:true,
-        secure:true
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
       }
 
    return res.

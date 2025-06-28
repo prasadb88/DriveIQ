@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.routes.js";
 import carRouter from "./routes/carinfo.routes.js"
 import testDriveRouter from "./routes/testdrive.routes.js"
-import dotenv from 'dotenv'
+
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(
 );
 app.use(cookieParser());
 
-// Root route
+
 app.get("/", (req, res) => {
   res.json({
     message: "Welcome to DriveIQ API",
