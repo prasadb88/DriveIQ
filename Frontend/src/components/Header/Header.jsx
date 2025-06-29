@@ -357,7 +357,7 @@ function Header() {
             </div>
             <div className="bg-blue-50 p-3 rounded-lg">
               <p className="text-sm text-blue-800">
-                <strong>Demo Key:</strong> Contact The Owner
+                <strong>Demo Key:</strong> Owner key 'PrasadBhot'
               </p>
             </div>
           </div>
